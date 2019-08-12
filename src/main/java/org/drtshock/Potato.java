@@ -51,12 +51,17 @@ public class Potato implements Tuber {
      * @param names Names of the condiments to add
      */
     public void addCondiments(String... names) throws NotDeliciousException {
-        for (String condimentName : names) {
+        Arrays.stream(names).forEach(condimentName -> {
             Condiment condiment = new Condiment(condimentName, true);
-            if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
-            if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
-            this.getCondiments().add(condiment);
-        }
+            
+            if (!condiment.isDelicious()) 
+                throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
+            
+            if (condiment.isExpired()) 
+                throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
+            
+            getCondiments().add(condiment);
+        });
     }
 
     /**
@@ -65,9 +70,7 @@ public class Potato implements Tuber {
      * @see #getCondiments()
      */
     public void listCondiments() {
-        for (Condiment condiment : this.getCondiments()) {
-            System.out.println(condiment.getName());
-        }
+        condiments.forEach(condiment -> System.out.println(condiment.getName()));
     }
 
     /**
